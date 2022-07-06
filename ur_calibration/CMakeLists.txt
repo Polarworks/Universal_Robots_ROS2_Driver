@@ -34,10 +34,9 @@ target_include_directories(calibration
   PUBLIC
     include
     ${EIGEN3_INCLUDE_DIRS}
-    ${YAML_CPP_INCLUDE_DIRS}
 )
 target_link_libraries(calibration
-  ${YAML_CPP_LIBRARIES}
+  yaml-cpp
 )
 ament_target_dependencies(calibration
   rclcpp
