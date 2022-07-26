@@ -106,11 +106,11 @@ if [ $? -eq 0 ]; then
   echo "ursim_net already exists"
 else
   echo "Creating ursim_net"
-  docker network create --subnet=192.168.56.0/24 ursim_net
+  docker network create --subnet=192.168.131.0/24 ursim_net
 fi
 
 # run docker container
-docker run --rm -d --net ursim_net --ip 192.168.56.101\
+docker run --rm -d --net ursim_net --ip 192.168.131.200\
   -v "${URCAP_STORAGE}":/urcaps \
   -v "${PROGRAM_STORAGE}":/ursim/programs \
   -e ROBOT_MODEL="${ROBOT_MODEL}" \
