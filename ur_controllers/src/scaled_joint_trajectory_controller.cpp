@@ -65,7 +65,7 @@ controller_interface::CallbackReturn ScaledJointTrajectoryController::on_activat
 controller_interface::return_type ScaledJointTrajectoryController::update(const rclcpp::Time& time,
                                                                           const rclcpp::Duration& /*period*/)
 {
-  if (state_interfaces_.back().get_name() == "speed_scaling") {
+  if (state_interfaces_.back().get_interface_name() == "speed_scaling_factor") {
     scaling_factor_ = state_interfaces_.back().get_value();
   } else {
     RCLCPP_ERROR(get_node()->get_logger(), "Speed scaling interface not found in hardware interface.");
@@ -165,7 +165,10 @@ controller_interface::return_type ScaledJointTrajectoryController::update(const 
     // find segment for current timestamp
     joint_trajectory_controller::TrajectoryPointConstIter start_segment_itr, end_segment_itr;
     const bool valid_point =
-        (*traj_point_active_ptr_)->sample(traj_time, state_desired, start_segment_itr, end_segment_itr);
+        (*traj_point_active_ptr_)
+            ->sample(traj_time,
+                     joint_trajectory_controller::interpolation_methods::InterpolationMethod::VARIABLE_DEGREE_SPLINE,
+                     state_desired, start_segment_itr, end_segment_itr);
 
     if (valid_point) {
       bool abort = false;
